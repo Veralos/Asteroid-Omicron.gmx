@@ -125,6 +125,11 @@ heat_surface = surface_create(64, 64);
     
 surface_free(game_surface);
 game_surface = surface_create(64, 64);
+
+if (global.MAP) {
+    heat_pulse = 0;
+    map_save = true;
+}
 </string>
           </argument>
         </arguments>
@@ -168,6 +173,13 @@ application_surface_draw_enable(false);
 view_surface = -1;
 game_surface = -1;
 heat_surface = -1;
+
+global.MAP = false;
+
+if (global.MAP) {
+    map_surface = surface_create(56 * 9, 56 * 9);
+    map_save = false;
+}
 
 shake = 0;
 invert = 0;
@@ -213,6 +225,16 @@ room_goto_next();
             if (instance_exists(obj_heat)) {
                 shader_set(shad_heat);
                 shader_set_uniform_f(shader_get_uniform(shad_heat, "pulse"),  1.5 + 0.5 * sin(heat_pulse * 2 * pi));
+            }
+            
+            if (global.MAP &amp;&amp; map_save) {
+                surface_reset_target();
+                surface_set_target(map_surface);
+                draw_surface(view_surface, obj_game_control.room_x * 56, obj_game_control.room_y * 56);
+                surface_reset_target();
+                surface_set_target(game_surface);
+                
+                map_save = false;
             }
             
             draw_surface(view_surface, 4, 4);
@@ -379,6 +401,34 @@ else {
     heat_surface = surface_create(64, 64);
     
     game_surface = surface_create(64, 64);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="116">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (global.MAP) {
+    audio_play_sound(snd_confirm, 0, false);
+    surface_save(map_surface, "map" + string(obj_game_control.level) + ".png");
+    surface_free(map_surface);
+    map_surface = surface_create(56 * 9, 56 * 9);
 }
 </string>
           </argument>

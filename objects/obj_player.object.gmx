@@ -73,7 +73,10 @@ convey_y = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (obj_game_control.state == obj_game_control.base_state) {
+            <string>if (global.MAP)
+    visible = !obj_draw_game.map_save;
+
+if (obj_game_control.state == obj_game_control.base_state) {
     flash = !flash;
     magnet_flash = !magnet_flash;
     
