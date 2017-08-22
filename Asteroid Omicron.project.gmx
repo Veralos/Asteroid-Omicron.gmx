@@ -166,6 +166,7 @@
     </objects>
     <objects name="floor">
       <object>objects\obj_floor</object>
+      <object>objects\obj_floor_spawn</object>
       <object>objects\obj_floor_main</object>
       <object>objects\obj_floor_warning</object>
       <object>objects\obj_floor_asteroid</object>

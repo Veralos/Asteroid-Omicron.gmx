@@ -6,7 +6,7 @@ with (obj_vault)
 var out = '0';
 
 for (var check_x = 0; check_x < room_width; check_x += 4) {
-    if (place_free(check_x, check_y))
+    if (place_free(check_x, check_y) || place_meeting(check_x, check_y, obj_wall_enemy))
             out =  '1';
 } 
 
