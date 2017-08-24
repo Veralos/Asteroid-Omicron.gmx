@@ -187,6 +187,8 @@ flash = false;
 flash_timer = 0;
 heat_pulse = 0;
 
+instance_create(0, 0, obj_controller);
+
 room_goto_next();
 </string>
           </argument>

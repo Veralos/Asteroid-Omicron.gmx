@@ -230,6 +230,7 @@
     <object>objects\obj_drill_box</object>
     <object>objects\obj_boss_activator</object>
     <object>objects\obj_ship</object>
+    <object>objects\obj_controller</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_init</room>

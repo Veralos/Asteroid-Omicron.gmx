@@ -128,7 +128,14 @@ room_goto(ds_grid_get(ds_list_find_value(level_list, level), room_x, room_y));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>on_lift = false;
+            <string>var lift_pressed = keyboard_check_pressed(vk_shift) || gamepad_button_check_pressed(0, gp_face4) || gamepad_button_check_pressed(0, gp_shoulderl);
+var map_pressed = keyboard_check_pressed(vk_space) || gamepad_button_check_pressed(0, gp_select);
+var exit_pressed = keyboard_check_pressed(vk_escape) || gamepad_button_check_pressed(0, gp_start);
+var up_pressed = keyboard_check_pressed(vk_up) || obj_controller.leftstick_up_pressed;
+var down_pressed = keyboard_check_pressed(vk_down) || obj_controller.leftstick_down_pressed;
+var confirm_pressed = keyboard_check_pressed(ord('A')) || gamepad_button_check_pressed(0, gp_face1);
+
+on_lift = false;
 
 switch (state) {
     case base_state:
@@ -173,7 +180,7 @@ switch (state) {
             if (place_meeting(obj_player.x, obj_player.y, obj_elevator))
                 on_lift = true;
             
-            if (keyboard_check_pressed(vk_shift) &amp;&amp; on_lift) {
+            if (lift_pressed &amp;&amp; on_lift) {
                 audio_play_sound(snd_lift, 0, false);
                 state = lift_state;
                 obj_player.canshoot = 10;
@@ -207,7 +214,7 @@ switch (state) {
                 room_goto(ds_grid_get(ds_list_find_value(level_list, level), room_x, room_y));
         }
         
-        if (keyboard_check_pressed(vk_escape)) {
+        if (exit_pressed) {
             audio_stop_sound(ds_list_find_value(music_list, level));
             audio_stop_sound(mus_evil);
             audio_play_sound(snd_cancel, 0, false);
@@ -217,25 +224,25 @@ switch (state) {
             room_goto(rm_title);
         }
         
-        if (keyboard_check_pressed(vk_space)) {
+        if (map_pressed) {
             audio_play_sound(snd_map, 0, false);
             state = map_state;
         }
         
         break;
     case item_state:
-        if (keyboard_check_pressed(vk_anykey) &amp;&amp; !audio_is_playing(mus_fanfare)) {
+        if ((keyboard_check_pressed(vk_anykey) || confirm_pressed || exit_pressed) &amp;&amp; !audio_is_playing(mus_fanfare)) {
             audio_resume_sound(ds_list_find_value(obj_game_control.music_list, obj_game_control.level));
             state = base_state;
         }
         
         break;
     case lift_state:
-        if (keyboard_check_pressed(vk_up)) {
+        if (up_pressed) {
             audio_play_sound(snd_select, 0, false);
             lift_selected--;
         }
-        if (keyboard_check_pressed(vk_down)) {
+        if (down_pressed) {
             audio_play_sound(snd_select, 0, false);
             lift_selected++;
         }
@@ -245,7 +252,7 @@ switch (state) {
         if (lift_selected &gt; 4)
             lift_selected = 0;
             
-        if (keyboard_check_pressed(ord('A'))) {
+        if (confirm_pressed) {
             if (ds_list_find_index(unlocked_levels, lift_selected) == -1)
                 audio_play_sound(snd_error, 0, false);
             else {
@@ -261,18 +268,18 @@ switch (state) {
             }
         }
         
-        if (keyboard_check_pressed(vk_shift) || keyboard_check_pressed(vk_escape)) {
+        if (lift_pressed || exit_pressed) {
             audio_play_sound(snd_cancel, 0, false);
             state = base_state;
         }
             
         break;
     case map_state:
-        if (keyboard_check_pressed(vk_up)) {
+        if (up_pressed) {
             audio_play_sound(snd_select, 0, false);
             lift_selected--;
         }
-        if (keyboard_check_pressed(vk_down)) {
+        if (down_pressed) {
             audio_play_sound(snd_select, 0, false);
             lift_selected++;
         }
@@ -282,7 +289,7 @@ switch (state) {
         if (lift_selected &gt; 4)
             lift_selected = 0;
     
-        if (keyboard_check_pressed(vk_space) || keyboard_check_pressed(vk_escape)) {
+        if (map_pressed || exit_pressed) {
             audio_play_sound(snd_cancel, 0, false);
             state = base_state;
         }

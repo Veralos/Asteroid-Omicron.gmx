@@ -75,6 +75,19 @@ convey_y = 0;
             <kind>1</kind>
             <string>if (global.MAP)
     visible = !obj_draw_game.map_save;
+    
+var left_held = keyboard_check(vk_left) || obj_controller.leftstick_left;
+var right_held = keyboard_check(vk_right) || obj_controller.leftstick_right;
+var up_held = keyboard_check(vk_up) || obj_controller.leftstick_up;
+var down_held = keyboard_check(vk_down) || obj_controller.leftstick_down;
+var shoot_held = keyboard_check(ord('A')) || gamepad_button_check(0, gp_face3) || gamepad_button_check(0, gp_shoulderrb);
+
+var left_pressed = keyboard_check_pressed(vk_left) || obj_controller.leftstick_left_pressed;
+var right_pressed = keyboard_check_pressed(vk_right) || obj_controller.leftstick_right_pressed;
+var up_pressed = keyboard_check_pressed(vk_up) || obj_controller.leftstick_up_pressed;
+var down_pressed = keyboard_check_pressed(vk_down) || obj_controller.leftstick_down_pressed;
+var dash_pressed = keyboard_check_pressed(ord('S')) || gamepad_button_check_pressed(0, gp_face1) || gamepad_button_check_pressed(0, gp_shoulderlb);
+var magnet_pressed = keyboard_check_pressed(ord('D')) || gamepad_button_check_pressed(0, gp_face2) || gamepad_button_check_pressed(0, gp_shoulderr);
 
 if (obj_game_control.state == obj_game_control.base_state) {
     flash = !flash;
@@ -106,14 +119,14 @@ if (obj_game_control.state == obj_game_control.base_state) {
         case (base_state):
     
             dir_x = 0;
-            if (keyboard_check(vk_left))
+            if (left_held)
                 dir_x--;
-            if (keyboard_check(vk_right))
+            if (right_held)
                 dir_x++;
             dir_y = 0;
-            if (keyboard_check(vk_up))
+            if (up_held)
                 dir_y--;
-            if (keyboard_check(vk_down))
+            if (down_held)
                 dir_y++;
                 
             if (place_free(x + dir_x, y) &amp;&amp; place_meeting(x, y, obj_floor))
@@ -126,19 +139,19 @@ if (obj_game_control.state == obj_game_control.base_state) {
             if (place_free(x, y + sign(convey_y)) &amp;&amp; place_meeting(x, y, obj_floor))
                 y += sign(convey_y);
             
-            if (keyboard_check_pressed(vk_left) || keyboard_check_pressed(vk_right))
+            if (left_pressed || right_pressed)
                 priority_x = true;
-            if (keyboard_check_pressed(vk_up) || keyboard_check_pressed(vk_down))
+            if (up_pressed || down_pressed)
                 priority_x = false;
                 
-            if (keyboard_check_pressed(ord('S')) &amp;&amp; dash_cooldown &lt;= 0 &amp;&amp; scr_item_found(obj_game_control.item_dash)) {
+            if (dash_pressed &amp;&amp; dash_cooldown &lt;= 0 &amp;&amp; scr_item_found(obj_game_control.item_dash)) {
                 audio_play_sound(snd_dash, 0, false);
                 dash = 2;
                 if (scr_item_found(obj_game_control.item_phase_dash))
                     phase = phase_max;
                 state = dash_state;
             }
-            else if (keyboard_check_pressed(ord('D')) &amp;&amp; scr_item_found(obj_game_control.item_magnet)) {
+            else if (magnet_pressed &amp;&amp; scr_item_found(obj_game_control.item_magnet)) {
                 with (instance_create(x, y, obj_magnet)) {
                     angle = obj_player.angle;
                     move_contact_solid(angle, 64);
@@ -157,9 +170,11 @@ if (obj_game_control.state == obj_game_control.base_state) {
                 magnet_flash = true;
             }
                 
-            if (!keyboard_check(ord('A')) || state == dash_state) {
+            if (!shoot_held || state == dash_state) {
                 if (state != magnet_state) {
-                    if ((dir_x != 0 &amp;&amp; dir_y != 0)) {
+                    if (gamepad_axis_value(0, gp_axislh) != 0 || gamepad_axis_value(0, gp_axislv) != 0)
+                        angle = round(point_direction(0, 0, gamepad_axis_value(0, gp_axislh), gamepad_axis_value(0, gp_axislv)) / 90) * 90;
+                    else if ((dir_x != 0 &amp;&amp; dir_y != 0)) {
                         if (priority_x)
                             angle = point_direction(0, 0, dir_x, 0);
                         else

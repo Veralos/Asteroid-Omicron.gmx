@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -25,8 +25,17 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>audio_play_sound(mus_victory, 0, true);
-wait = 0;
+            <string>gamepad_set_axis_deadzone(0, 0.5);
+
+leftstick_left = false;
+leftstick_right = false;
+leftstick_up = false;
+leftstick_down = false;
+
+leftstick_left_pressed = false;
+leftstick_right_pressed = false;
+leftstick_up_pressed = false;
+leftstick_down_pressed = false;
 </string>
           </argument>
         </arguments>
@@ -49,68 +58,42 @@ wait = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var exit_pressed = keyboard_check_pressed(vk_escape) || gamepad_button_check_pressed(0, gp_start);
-var confirm_pressed = keyboard_check_pressed(ord('A')) || gamepad_button_check_pressed(0, gp_face1);
+            <string>leftstick_left_pressed = false;
+leftstick_right_pressed = false;
+leftstick_up_pressed = false;
+leftstick_down_pressed = false;
 
-if (wait &lt; 30)
-    wait++;
-else if (exit_pressed || confirm_pressed) {
-    audio_play_sound(snd_confirm, 0, false);
-    room_goto(rm_title);
+if (gamepad_axis_value(0, gp_axislh) &lt; 0 || gamepad_button_check(0, gp_padl)) {
+    if (!leftstick_left)
+        leftstick_left_pressed = true;
+    leftstick_left = true;
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="5">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>audio_stop_sound(mus_victory);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>draw_set_halign(fa_center);
-draw_set_valign(fa_middle);
-
-draw_set_color(c_white);
-
-draw_set_font(fnt_title);
-
-draw_text(32, 32, "Mission#Complete");
+else
+    leftstick_left = false;
+    
+if (gamepad_axis_value(0, gp_axislh) &gt; 0 || gamepad_button_check(0, gp_padr)) {
+    if (!leftstick_right)
+        leftstick_right_pressed = true;
+    leftstick_right = true;
+}
+else
+    leftstick_right = false;
+    
+if (gamepad_axis_value(0, gp_axislv) &lt; 0 || gamepad_button_check(0, gp_padu)) {
+    if (!leftstick_up)
+        leftstick_up_pressed = true;
+    leftstick_up = true;
+}
+else
+    leftstick_up = false;
+    
+if (gamepad_axis_value(0, gp_axislv) &gt; 0 || gamepad_button_check(0, gp_padd)) {
+    if (!leftstick_down)
+        leftstick_down_pressed = true;
+    leftstick_down = true;
+}
+else
+    leftstick_down = false;
 </string>
           </argument>
         </arguments>
