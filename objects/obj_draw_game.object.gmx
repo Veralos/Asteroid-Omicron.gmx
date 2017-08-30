@@ -284,9 +284,9 @@ room_goto_next();
                     if (obj_game_control.on_lift)
                         draw_text_ext(32, 16, "Press shift to use lift", 4, 52);
                         
-                    var show_air = obj_game_control.air div 2;
+                    var show_air = ceil(obj_game_control.air / obj_game_control.max_air * 100);
                         
-                    if (obj_game_control.air mod 4 &gt; 0)
+                    if (ceil(obj_game_control.air * 30) mod 3 &gt; 0)
                         draw_text_ext(32, 16, "Air: " + string(show_air), 4, 52);
                     
                     break;

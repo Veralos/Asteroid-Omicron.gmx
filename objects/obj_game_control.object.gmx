@@ -39,7 +39,8 @@ go_to_end = 0;
 
 on_lift = false;
 
-air = 200;
+max_air = 18;
+air = max_air;
 
 title = "";
 description = "";
@@ -150,9 +151,9 @@ switch (state) {
         }
         
         if (instance_exists(obj_space) &amp;&amp; ! scr_item_found(item_air_tank))
-            air--;
+            air -= 1 / 30;
         else
-            air = 200;
+            air = max_air;
             
         if (air &lt;= 0) {
             audio_play_sound(snd_hurt, 0, false);
