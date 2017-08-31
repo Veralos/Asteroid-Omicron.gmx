@@ -172,7 +172,7 @@ if (obj_game_control.state == obj_game_control.base_state) {
                 
             if (!shoot_held || state == dash_state) {
                 if (state != magnet_state) {
-                    if (gamepad_axis_value(0, gp_axislh) != 0 || gamepad_axis_value(0, gp_axislv) != 0)
+                    if (abs(gamepad_axis_value(0, gp_axislh)) &gt; 0.5 || abs(gamepad_axis_value(0, gp_axislv)) &gt;= 0.5)
                         angle = round(point_direction(0, 0, gamepad_axis_value(0, gp_axislh), gamepad_axis_value(0, gp_axislv)) / 90) * 90;
                     else if ((dir_x != 0 &amp;&amp; dir_y != 0)) {
                         if (priority_x)

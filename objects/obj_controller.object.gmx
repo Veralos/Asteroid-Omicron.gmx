@@ -63,7 +63,7 @@ leftstick_right_pressed = false;
 leftstick_up_pressed = false;
 leftstick_down_pressed = false;
 
-if (gamepad_axis_value(0, gp_axislh) &lt; 0 || gamepad_button_check(0, gp_padl)) {
+if (gamepad_axis_value(0, gp_axislh) &lt; -0.5 || gamepad_button_check(0, gp_padl)) {
     if (!leftstick_left)
         leftstick_left_pressed = true;
     leftstick_left = true;
@@ -71,7 +71,7 @@ if (gamepad_axis_value(0, gp_axislh) &lt; 0 || gamepad_button_check(0, gp_padl))
 else
     leftstick_left = false;
     
-if (gamepad_axis_value(0, gp_axislh) &gt; 0 || gamepad_button_check(0, gp_padr)) {
+if (gamepad_axis_value(0, gp_axislh) &gt; 0.5 || gamepad_button_check(0, gp_padr)) {
     if (!leftstick_right)
         leftstick_right_pressed = true;
     leftstick_right = true;
@@ -79,7 +79,7 @@ if (gamepad_axis_value(0, gp_axislh) &gt; 0 || gamepad_button_check(0, gp_padr))
 else
     leftstick_right = false;
     
-if (gamepad_axis_value(0, gp_axislv) &lt; 0 || gamepad_button_check(0, gp_padu)) {
+if (gamepad_axis_value(0, gp_axislv) &lt; -0.5 || gamepad_button_check(0, gp_padu)) {
     if (!leftstick_up)
         leftstick_up_pressed = true;
     leftstick_up = true;
@@ -87,7 +87,7 @@ if (gamepad_axis_value(0, gp_axislv) &lt; 0 || gamepad_button_check(0, gp_padu))
 else
     leftstick_up = false;
     
-if (gamepad_axis_value(0, gp_axislv) &gt; 0 || gamepad_button_check(0, gp_padd)) {
+if (gamepad_axis_value(0, gp_axislv) &gt; 0.5 || gamepad_button_check(0, gp_padd)) {
     if (!leftstick_down)
         leftstick_down_pressed = true;
     leftstick_down = true;
