@@ -170,7 +170,7 @@ draw_set_valign(fa_middle);
 
 draw_set_color(c_white);
 
-draw_set_font(fnt_main);
+draw_set_font(fnt_main2);
 
 for (var i = 0; i &lt; ds_list_size(option_list); i++) {
     var text = ds_list_find_value(option_list, i);
@@ -178,17 +178,17 @@ for (var i = 0; i &lt; ds_list_size(option_list); i++) {
     switch (i) {
         case 2:
             if (window_get_fullscreen())
-                text += ": On";
+                text += ":On";
             else
-                text += ": Off";
+                text += ":Off";
             break;
         case 3:
-            text += ": x" + string(obj_draw_game.scale);
+            text += ":x" + string(obj_draw_game.scale);
             break;
     }
     
     if (i == selected)
-        text = "&gt;" + text + "&lt;";
+        text = ")" + text + "(";
         
     draw_set_alpha(1);
     if (i == 1 &amp;&amp; !saved)

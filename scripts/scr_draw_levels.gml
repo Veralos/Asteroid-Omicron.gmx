@@ -15,7 +15,7 @@ for (var i = 0; i < 5; i++) {
         
     var text = "Level " + string(i);
     if (lift_selected == i)
-        text = "> " + text + " <";
+        text = ")" + text + "(";
     draw_text(draw_x, draw_y + 5 * i, text);
 }
 

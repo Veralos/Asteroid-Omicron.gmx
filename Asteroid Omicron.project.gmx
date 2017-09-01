@@ -141,6 +141,7 @@
   </shaders>
   <fonts name="fonts">
     <font>fonts\fnt_main</font>
+    <font>fonts\fnt_main2</font>
     <font>fonts\fnt_title</font>
     <font>fonts\fnt_menu</font>
   </fonts>

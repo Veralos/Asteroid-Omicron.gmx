@@ -77,7 +77,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_font(fnt_main);
+            <string>draw_set_font(fnt_main2);
 
 draw_set_halign(fa_middle);
 draw_set_valign(fa_center);
